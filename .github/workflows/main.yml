@@ -17,4 +17,4 @@ jobs:
           pip install -r requirements.txt
       - name: Run scripts
         run: |
-          python scripts/eda.py
+          python scripts/data_load.py
