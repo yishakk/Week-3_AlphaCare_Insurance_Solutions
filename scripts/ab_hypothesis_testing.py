@@ -8,10 +8,10 @@ class ABHypothesisTesting:
 
     def test_risk_across_provinces(self):
         """
-        Test if there are significant risk differences (Total Claims) across provinces.
+        Test if there are significant risk differences (TotalClaims) across provinces.
         Null Hypothesis: There are no risk differences across provinces.
         """
-        province_groups = [self.data[self.data['Province'] == p]['Total_Claim'] for p in self.data['Province'].unique()]
+        province_groups = [self.data[self.data['Province'] == p]['TotalClaims'] for p in self.data['Province'].unique()]
         result = f_oneway(*province_groups)
         return {
             "Test": "ANOVA",
@@ -26,7 +26,7 @@ class ABHypothesisTesting:
         Test if there are significant risk differences (Total Claims) between zip codes.
         Null Hypothesis: There are no risk differences between zip codes.
         """
-        zipcode_groups = [self.data[self.data['Zipcode'] == z]['Total_Claim'] for z in self.data['Zipcode'].unique()]
+        zipcode_groups = [self.data[self.data['PostalCode'] == z]['TotalClaims'] for z in self.data['PostalCode'].unique()]
         result = f_oneway(*zipcode_groups)
         return {
             "Test": "ANOVA",
@@ -41,8 +41,8 @@ class ABHypothesisTesting:
         Test if there are significant margin (profit) differences between zip codes.
         Null Hypothesis: There are no significant margin differences between zip codes.
         """
-        self.data['Margin'] = self.data['Premium'] - self.data['Total_Claim']
-        zipcode_groups = [self.data[self.data['Zipcode'] == z]['Margin'] for z in self.data['Zipcode'].unique()]
+        self.data['Margin'] = self.data['TotalPremium'] - self.data['TotalClaims']
+        zipcode_groups = [self.data[self.data['PostalCode'] == z]['Margin'] for z in self.data['PostalCode'].unique()]
         result = f_oneway(*zipcode_groups)
         return {
             "Test": "ANOVA",
@@ -57,8 +57,8 @@ class ABHypothesisTesting:
         Test if there are significant risk differences (Total Claims) between genders.
         Null Hypothesis: There are no significant risk differences between women and men.
         """
-        male_group = self.data[self.data['Gender'] == 'Male']['Total_Claim']
-        female_group = self.data[self.data['Gender'] == 'Female']['Total_Claim']
+        male_group = self.data[self.data['Gender'] == 'Male']['TotalClaims']
+        female_group = self.data[self.data['Gender'] == 'Female']['TotalClaims']
         result = ttest_ind(male_group, female_group, equal_var=False)
         return {
             "Test": "T-Test",
